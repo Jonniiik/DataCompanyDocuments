@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AddCompanyActivity">
+
+    <EditText
+        android:id="@+id/editTextNameCompany"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Наименование Компании" />
+
+    <EditText
+        android:id="@+id/editTextINNCompany"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="ИНН Компании"
+        android:inputType="time"
+        android:maxLength="12"/>
+
+    <EditText
+        android:id="@+id/editTextKPPCompany"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="КПП Компании"
+        android:inputType="time"
+        android:maxLength="9"/>
+
+    <EditText
+        android:id="@+id/editTextOGRNCompany"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="ОГРН Компании"
+        android:inputType="time"
+        android:maxLength="13"/>
+
+    <FrameLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/buttonAddCompany"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:text="Добавить компанию" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewCompanyAddCompany"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+
+</LinearLayout>
