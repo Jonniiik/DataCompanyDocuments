@@ -74,7 +74,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 DocTable.DocEntry.COLUMN_DOCUMENT_VERSION + " TEXT NOT NULL, " +
                 DocTable.DocEntry.COLUMN_DOCUMENT_ID_CLASS + " TEXT NOT NULL, " +
                 DocTable.DocEntry.COLUMN_DOCUMENT_ID_SECTIONS + " TEXT NOT NULL, " +
-                DocTable.DocEntry.COLUMN_DOC_URL_FILE + " TEXT NOT NULL " +
+                DocTable.DocEntry.COLUMN_DOC_ID_FILE + " TEXT NOT NULL " +
                 ");";
 
         final String SQL_CREATE_DOC_FILE_TABLE = "CREATE TABLE " +

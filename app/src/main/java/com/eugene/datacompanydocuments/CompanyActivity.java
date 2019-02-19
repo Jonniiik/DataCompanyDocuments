@@ -41,6 +41,7 @@ public class CompanyActivity extends AppCompatActivity implements SearchView.OnQ
     private ArrayList<Company> companyArrayList;
     RecyclerViewListAddCompany listAddCompanyAdapter;
     private DataBaseHelper databaseHelper;
+    SQLiteDatabase mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,8 @@ public class CompanyActivity extends AppCompatActivity implements SearchView.OnQ
         setContentView(R.layout.activity_company);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mDatabase = databaseHelper.getWritableDatabase();
 
         initViews();
         initObjects();
@@ -89,6 +92,7 @@ public class CompanyActivity extends AppCompatActivity implements SearchView.OnQ
         recyclerViewScanCompany.setItemAnimator(new DefaultItemAnimator());
         recyclerViewScanCompany.setHasFixedSize(true);
         recyclerViewScanCompany.setAdapter(listAddCompanyAdapter);
+
         databaseHelper = new DataBaseHelper(this);
         getDataFromSQLite();
     }

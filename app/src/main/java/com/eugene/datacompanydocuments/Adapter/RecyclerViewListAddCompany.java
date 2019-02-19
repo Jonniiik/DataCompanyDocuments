@@ -28,7 +28,7 @@ public class RecyclerViewListAddCompany extends RecyclerView.Adapter<RecyclerVie
 
     private ArrayList<Company> companyList;
     private Context mContext;
-    // private Cursor mCursor;
+    private Cursor mCursor;
     private OnTapListener onTapListener;
 
     public RecyclerViewListAddCompany(ArrayList<Company> companyList, Context mContext) {
@@ -76,8 +76,9 @@ public class RecyclerViewListAddCompany extends RecyclerView.Adapter<RecyclerVie
         listAddCompanyViewHolder.KppCompanyRvAddCompany.setText(companyList.get(position).getKPPCompany());
         listAddCompanyViewHolder.OgrnCompanyRvAddCompany.setText(companyList.get(position).getOGRNCompany());
 
-        // final long id = mCursor.getLong(mCursor.getColumnIndex(CompanyTable.CompanyEntry._ID));
-        // listAddCompanyViewHolder.itemView.setTag(id);
+        final long id = mCursor.getLong(mCursor.getColumnIndex(CompanyTable.CompanyEntry._ID));
+        listAddCompanyViewHolder.itemView.setTag(id);
+
         listAddCompanyViewHolder.relativeLayoutListScanCompany.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +87,7 @@ public class RecyclerViewListAddCompany extends RecyclerView.Adapter<RecyclerVie
                 }
                 Intent intent = new Intent(mContext, DossierActivity.class);
                 intent.putExtra("companyName", companyList.get(position).getNameCompany());
-                // intent.putExtra("idCompany", id);
+                intent.putExtra("idCompany", companyList.get(position).getId());
                 mContext.startActivities(new Intent[]{intent});
             }
         });

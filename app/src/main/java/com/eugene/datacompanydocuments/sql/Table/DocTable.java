@@ -10,6 +10,6 @@ public class DocTable {
         public static final String COLUMN_DOCUMENT_VERSION = "versionDocument";
         public static final String COLUMN_DOCUMENT_ID_CLASS = "idClassDocument";
         public static final String COLUMN_DOCUMENT_ID_SECTIONS = "idSectionsDocument";
-        public static final String COLUMN_DOC_URL_FILE = "docFile";
+        public static final String COLUMN_DOC_ID_FILE = "docIdFile";
     }
 }
