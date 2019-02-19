@@ -10,8 +10,6 @@ public class DossierTable {
         public static final String COLUMN_NAME_DOSSER = "nameDosser";
         public static final String COLUMN_DATA_ACTUAL = "dataActual";
         public static final String COLUMN_DATA_CREATURE = "dataCreate";
-        public static final String COLUMN_VERSION = "version";
-        public static final String COLUMN_ID_SECTION = "IDSection";
         public static final String COLUMN_ID_COMPANY = "IdCompany";
         public static final String COLUMN_ID_DOC = "IdDOC";
     }

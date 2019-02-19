@@ -17,9 +17,14 @@ import android.widget.Toast;
 import com.eugene.datacompanydocuments.Adapter.RecyclerViewListAddCompany;
 import com.eugene.datacompanydocuments.model.Company;
 import com.eugene.datacompanydocuments.sql.Helper.DataBaseHelper;
+import com.eugene.datacompanydocuments.sql.Helper.InputValidation;
 import com.eugene.datacompanydocuments.sql.Table.CompanyTable;
 
-public class AddCompanyActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+public class AddCompanyActivity extends AppCompatActivity{
 
     Button buttonAddCompany;
 
@@ -28,79 +33,77 @@ public class AddCompanyActivity extends AppCompatActivity implements View.OnClic
     EditText editTextKPPCompany;
     EditText editTextOGRNCompany;
 
-    RecyclerView recyclerViewCompanyAddCompany;
-
     private SQLiteDatabase mDataBase;
     private RecyclerViewListAddCompany mAdapterListAddCompany;
+    private DataBaseHelper databaseHelper;
+    private Company company;
+    private InputValidation inputValidation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_company);
 
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(AddCompanyActivity.this);
-        mDataBase = dataBaseHelper.getWritableDatabase();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recyclerViewCompanyAddCompany = findViewById(R.id.recyclerViewCompanyAddCompany);
-        recyclerViewCompanyAddCompany.setLayoutManager(new LinearLayoutManager(this));
-        mAdapterListAddCompany = new RecyclerViewListAddCompany(this, getAllCompany());
-        recyclerViewCompanyAddCompany.setAdapter(mAdapterListAddCompany);
-        recyclerViewCompanyAddCompany.setVisibility(View.GONE);
+        initViews();
+        initObjects();
+        InitButton();
 
+    }
+
+    private void InitButton() {
+        buttonAddCompany = (Button) findViewById(R.id.buttonAddCompany);
+        buttonAddCompany.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addSQLCompany();
+            }
+        });
+    }
+
+    private void initViews() {
+        editTextNameCompany = (EditText) findViewById(R.id.editTextNameCompany);
         editTextINNCompany = (EditText) findViewById(R.id.editTextINNCompany);
         editTextKPPCompany = (EditText) findViewById(R.id.editTextKPPCompany);
-        editTextNameCompany = (EditText) findViewById(R.id.editTextNameCompany);
         editTextOGRNCompany = (EditText) findViewById(R.id.editTextOGRNCompany);
-
-        buttonAddCompany = (Button) findViewById(R.id.buttonAddCompany);
-        buttonAddCompany.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        addCompany();
-    }
-
-    private void addCompany() {
+    private void addSQLCompany() {
         if (editTextNameCompany.getText().toString().trim().length() == 0 || editTextINNCompany.getText().toString().trim().length() == 0) {
             Toast.makeText(this, "Введите 'Имя компании' и 'ИНН'", Toast.LENGTH_LONG).show();
         } else {
 
-            String nameCompany = editTextNameCompany.getText().toString();
-            String INNCompany = editTextINNCompany.getText().toString();
-            String KPPCompany = editTextKPPCompany.getText().toString();
-            String OGRNCompany = editTextOGRNCompany.getText().toString();
 
-            ContentValues cv = new ContentValues();
-            cv.put(CompanyTable.CompanyEntry.COLUMN_NAME_COMPANY, nameCompany);
-            cv.put(String.valueOf(CompanyTable.CompanyEntry.COLUMN_INN_COMPANY), INNCompany);
-            cv.put(String.valueOf(CompanyTable.CompanyEntry.COLUMN_OGRN_COMPANY), OGRNCompany);
-            cv.put(String.valueOf(CompanyTable.CompanyEntry.COLUMN_KPP_COMPANY), KPPCompany);
+            company.setNameCompany(editTextNameCompany.getText().toString().trim());
+            company.setINNCompany(editTextINNCompany.getText().toString().trim());
+            company.setKPPCompany(editTextKPPCompany.getText().toString().trim());
+            company.setOGRNCompany(editTextOGRNCompany.getText().toString().trim());
 
-            mDataBase.insert(CompanyTable.CompanyEntry.TABLE_NAME, null, cv);
-            mAdapterListAddCompany.swapCursor(getAllCompany());
-
-            Log.e("Проверка", "Данные фрагмента" + " " + "Имя компании: " + nameCompany + " " + " ИНН " + INNCompany + " " + " КПП " + KPPCompany + " " + " ОГРН " + OGRNCompany);
-
-            editTextKPPCompany.getText().clear();
-            editTextNameCompany.getText().clear();
-            editTextINNCompany.getText().clear();
-            editTextOGRNCompany.getText().clear();
+            databaseHelper.addCompany(company);
 
             Intent intent = new Intent(this, CompanyActivity.class);
+            intent.putExtra("nameCompany", editTextNameCompany.getText().toString().trim());
+            intent.putExtra("INNCompany", editTextINNCompany.getText().toString().trim());
+            intent.putExtra("KPPCompany", editTextKPPCompany.getText().toString().trim());
+            intent.putExtra("OGRNCompany", editTextOGRNCompany.getText().toString().trim());
+
+            emptyEditText();
             startActivity(intent);
         }
+
     }
 
-    private Cursor getAllCompany() {
-        return mDataBase.query(
-                CompanyTable.CompanyEntry.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                CompanyTable.CompanyEntry.COLUMN_NAME_COMPANY + " DESC", "10"
-        );
+    private void emptyEditText() {
+        editTextNameCompany.setText(null);
+        editTextINNCompany.setText(null);
+        editTextKPPCompany.setText(null);
+        editTextOGRNCompany.setText(null);
+    }
+
+    private void initObjects() {
+        inputValidation = new InputValidation(this);
+        databaseHelper = new DataBaseHelper(this);
+        company = new Company();
     }
 }
